@@ -35,7 +35,7 @@ func main() {
 		logrus.Fatal(err)
 	}
 
-	log.Printf("send %d packets (%s each) to %s", *count, h(*bs), *url)
+	log.Printf("send %d packets (%s each) to %s\n", *count, h(*bs), *url)
 
 	msg := []byte(strings.Repeat("X", *bs))
 
@@ -50,7 +50,7 @@ func main() {
 		sent += len(msg)
 		recv += n
 	}
-	fmt.Printf("Sent/recv %s / %s bytes in %f secs", h(sent), h(recv), time.Since(t0).Seconds())
+	fmt.Printf("Sent/recv %s / %s bytes in %f secs\n\n", h(sent), h(recv), time.Since(t0).Seconds())
 }
 
 func h(v int) string {

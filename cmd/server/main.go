@@ -1,13 +1,15 @@
 package main
 
 import (
+	"flag"
+	"fmt"
 	"io"
 	"io/ioutil"
 	"log"
 	"os"
 	"time"
 
-	"github.com/ilya-zz/logrange/pkg/proto/atmosphere"
+	"github.com/logrange/logrange/pkg/proto/atmosphere"
 	"github.com/sirupsen/logrus"
 )
 
@@ -34,9 +36,18 @@ func (l *listener) OnRead(r atmosphere.Reader, n int) error {
 	return nil
 }
 
+var (
+	port = flag.Int("p", 8080, "server port")
+)
+
 func main() {
+	flag.Parse()
+
+	addr := fmt.Sprintf("0.0.0.0:%d", *port)
+	log.Println("Listen on ", addr)
+
 	s, err := atmosphere.NewServer(&atmosphere.ServerConfig{
-		ListenAddress: "0.0.0.0:10101",
+		ListenAddress: addr,
 		SessTimeoutMs: 60 * 10000,
 		ConnListener:  newListener(),
 		Auth:          func(a, s string) bool { return true },
